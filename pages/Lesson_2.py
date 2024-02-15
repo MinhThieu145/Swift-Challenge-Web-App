@@ -1,28 +1,14 @@
 import streamlit as st
 import boto3
+import requests
 
 # the title
 st.title('Hey, now is the ELB, let goooo!!!.')
 
-import boto3
+st.write('Below, you will find the IP of the machine that you are on (or the IP V4 of the EC2).')
 
-# Create an EC2 resource instance
-ec2 = boto3.resource('ec2')
+base="https://checkip.amazonaws.com/"
+req = requests.get(base)
 
-# Get the current instance ID
-instance_id = boto3.client('ec2').describe_instances(Filters=[
-    {
-        'Name': 'instance-state-name',
-        'Values': ['running']
-    }
-])['Reservations'][0]['Instances'][0]['InstanceId']
-
-# Use the instance ID to get detailed information
-instance = ec2.Instance(instance_id)
-
-# st.write some details about the instance
-st.write(f"Instance ID: {instance.id}")
-st.write(f"Instance Type: {instance.instance_type}")
-st.write(f"Public IPv4 Address: {instance.public_ip_address}")
-st.write(f"AMI ID: {instance.image_id}")
-st.write(f"State: {instance.state['Name']}")
+# print the IP
+st.info(f"Your IP is: {req.text}", icon="📝")

@@ -9,6 +9,8 @@ ec2 = boto3.client('ec2')
 response = ec2.describe_instances()
 instance_id = response['Reservations'][0]['Instances'][0]['InstanceId']
 
+st.subheader('Section 1: Instance Information')
+
 # print the instance id
 st.write(f"Instance ID: {instance_id}")
 
